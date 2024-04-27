@@ -141,7 +141,7 @@ def update_output(*args):
     }
 
     # Initialize default data for graphs
-    default_data_auto = pd.DataFrame({"Task": ["A"], "Hours saved": [1], "Remaining hours": [2]})
+    default_data_auto = pd.DataFrame({"Task": ["A"], "Hours saved": [0], "Remaining hours": [0]})
     default_data_qual = pd.DataFrame({"Service": ["A"], "Quality": [0]})
 
     # Initialize graphs with default data
