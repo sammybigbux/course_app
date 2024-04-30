@@ -20,8 +20,33 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
+            html.Div([
+                dcc.Markdown("""
+                # Gen-AI Tool Recommender
+                """, className="mb-3")
+            ]),
             dcc.Tabs(id="tabs", value='tab-1', children=[
-                dcc.Tab(label="Budget", value='tab-1', children=[
+                dcc.Tab(label="About", value='tab-1', children=[
+                    html.Div([
+                        dcc.Markdown("""
+                        ### How to Use This App
+
+                        This application is designed to recommend a set of tools aimed at automating as much of your work as possible. To ensure the recommendations are tailored to your needs, please follow these steps:
+
+                        1. **Budget Setup**: Navigate to the Budget tab. Input your budget constraints and indicate if you want the recommendations to include tools from the Copilot bundle. Press submit to confirm your settings.
+
+                        2. **Automation Preferences**: Switch to the Automation tab. Here, you'll find questions regarding the amount of time you spend on various tasks each week. Your responses will help prioritize the types of tools that the app recommends for you.
+
+                        3. **Quality Prioritization**: Visit the Quality tab. Fill out the questions regarding your priority for improving the quality of each area of work. This information is crucial for resolving tie-breakers among recommended tools.
+
+                        4. **Review and Adjust**: After submitting all necessary information, return to the Budget tab to generate a report of your potential toolset. You can review and adjust your budget based on the recommendations provided.
+
+                        5. **Results Analysis**: On the right side of the interface, you will see an analysis of the potential hours you can save by utilizing the recommended services. Below this, the quality scores for each recommended service are displayed, providing a qualitative measure of how much the product will improve the quality of your work.
+                        """,
+                        className="mb-3")
+                    ])
+                ]),
+                dcc.Tab(label="Budget", value='tab-2', children=[
                     html.Div([
                         dcc.Markdown("""
                             ### Budget
@@ -31,7 +56,7 @@ app.layout = dbc.Container([
                         dbc.Input(id="budget", type="number", min=0, placeholder="Dollars per month", className="mb-2"),
 
                         dbc.Label("Copilot Pro (20$) contains several tools, would you like to consider this integration in the analysis?"),
-                        dbc.Checkbox(id='checkbox', className='mb-2', label="Enable or disable Copilot tools"),
+                        dbc.Checkbox(id='checkbox', className='mb-2', label="Enable Copilot tools"),
                         html.Div(id='error-message', className='bg-danger'),
                         dbc.Button("Submit", id="submit-button-3", color="primary", n_clicks=0, className="mb-2"),
                         dbc.Button("Generate Report", id="generate-report-1", color="success", n_clicks=0, className="mb-2"),
@@ -39,7 +64,7 @@ app.layout = dbc.Container([
                         html.Div(id='output-data-table', className='mb-2')
                     ])
                 ]),
-                dcc.Tab(label='Automation', value='tab-2', children=[
+                dcc.Tab(label='Automation', value='tab-3', children=[
                     html.Div([
                         dcc.Markdown("""
                             ### How much time do you spend...
@@ -60,19 +85,19 @@ app.layout = dbc.Container([
                         dbc.Label("Recording, summarizing, or reviewing meeting notes"),
                         dbc.Input(id="input-5", type="number", min=0, placeholder="Hours per week", className="mb-2"),
                         
-                        dbc.Label("Doing repetetive tasks that involve multiple web apps"),
+                        dbc.Label("Doing repetitive tasks that involve multiple web apps"),
                         dbc.Input(id="input-6", type="number", min=0, placeholder="Hours per week", className="mb-2"),
 
                         dbc.Button("Submit", id="submit-button", color="primary", n_clicks=0, className="mb-2"),
                     ])
                 ]),
-                dcc.Tab(label='Quality', value='tab-3', children=[
+                dcc.Tab(label='Quality', value='tab-4', children=[
                     html.Div([
                         dcc.Markdown("""
                             ### How much do you...
                             """, className="mb-3"
                         ),
-                        dbc.Label("Want to improve the quality of my understanding of long texts"),
+                        dbc.Label("Want to improve the quality of your understanding of long texts"),
                         dbc.Input(id="input-7", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
                         
                         dbc.Label("Want to improve the quality of created PowerPoints"),
@@ -94,18 +119,12 @@ app.layout = dbc.Container([
                     ])
                 ]),
             ]),
-        ], width=4),
+        ], width=5),
         
         dbc.Col([
             dcc.Graph(id="bar-graph-1"),
             dcc.Graph(id="bar-graph-2")
-        ], width=8)
-    ]),
-    dbc.Row([
-        dbc.Col([
-            html.H3("Full Report"),
-            html.Div(id="report-output")
-        ])
+        ], width=7)
     ])
 ], fluid=True)
 
@@ -145,12 +164,12 @@ def update_output(*args):
     default_data_qual = pd.DataFrame({"Service": ["A"], "Quality": [0]})
 
     # Initialize graphs with default data
-    fig1 = px.bar(default_data_auto, x="Task", y=["Hours saved", "Remaining hours"], title="Time saved")
+    fig1 = px.bar(default_data_auto, x="Task", y=["Hours saved", "Remaining hours"], title="Time Saved", labels={"value": "Total Hours"})
     fig1.update_layout(**custom_layout)
     fig1.update_traces(marker=dict(line=dict(width=0)), texttemplate='%{y}', textposition='inside')
     fig1.update_layout(legend_title_text='')
 
-    fig2 = px.bar(default_data_qual, x="Service", y="Quality", title="Quality Scores")
+    fig2 = px.bar(default_data_qual, x="Service", y="Quality", title="Quality Scores", labels={"Service": "Recommended Service"})
     fig2.update_layout(**custom_layout)
 
     default_report = 'Nothing to show'
@@ -231,12 +250,23 @@ def update_output(*args):
     default_report = "No data to show"
 
     if button_id in ["submit-button"]:
-        fig1 = px.bar(auto_ready, x="Task", y=["Hours saved", "Remaining hours"], title="Time saved")
+        fig1 = px.bar(auto_ready, x="Task", y=["Hours saved", "Remaining hours"], title="Time Saved", labels={"value": "Total Hours"})
         fig1.update_layout(**custom_layout)
-        fig1.update_layout(legend_title_text="", yaxis_title="Total Hours")
+        # Code for un-centering the title
+        #   fig1.update_layout(
+        #                     legend_title_text="",
+        #                     yaxis_title="Total Hours",
+        #                     title={
+        #                         'text': 'Your Graph Title',
+        #                         'x':0.45,  # Adjust this value to shift the title left (<0.5) or right (>0.5)
+        #                         'xanchor': 'center',  # Ensures the title will still center at the new x position
+        #                         'yanchor': 'top'
+        #                     }
+        #                 )
+
         return fig1, no_update, no_update, error_message
     elif button_id in ["submit-button-2"]:
-        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", title="Quality Scores")
+        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", title="Quality Scores", labels={"Service": "Recommended Service"})
         fig2.update_layout(**custom_layout)
         return no_update, fig2, no_update, error_message
     elif button_id in ['generate-report-1']:
@@ -247,26 +277,55 @@ def update_output(*args):
             data=df.to_dict('records'),
             columns=[{"name": i, "id": i} for i in df.columns],
             style_table={
-                            'overflowX': 'auto',
-                            'width': '100%',  # Ensure the table uses the full width of its container
-                            'minWidth': '100%'
-                        },
+                'overflowX': 'auto',
+                'width': '100%',  # Ensure the table uses the full width of its container
+                'minWidth': '100%'
+            },
             page_size=10,  # Add pagination
+            page_action='native',  # Enables server-side pagination
             style_cell={
                 'overflow': 'hidden',
                 'textOverflow': 'ellipsis',
-                'maxWidth': 0
-            }
+                'maxWidth': 0,
+                'padding': '10px',  # Add padding for content inside cells for better readability
+                'backgroundColor': '#343a40',  # Dark background for each cell
+                'color': '#f8f9fa',  # Light text for readability
+                'border': '1px solid #444'  # Slightly lighter border for subtle contrast
+            },
+            style_header={
+                'backgroundColor': '#495057',  # Slightly lighter than cell background for distinction
+                'fontWeight': 'bold',
+                'color': '#f8f9fa',  # White text color for the header
+                'border': '1px solid #444'
+            },
+            style_data={  # Style for the table's data cells
+                'border': '1px solid #444',
+                'backgroundColor': '#343a40',  # Same as cell background for consistency
+                'color': '#f8f9fa'
+            },
+            style_as_list_view=True,  # Styles the table like a list view without vertical grid lines
         )
 
         return no_update, no_update, default_report, no_update
+    
     else:
-        fig1 = px.bar(auto_ready, x="Task", y=["Hours saved", "Remaining hours"], title="Time saved")
+        fig1 = px.bar(auto_ready, x="Task", y=["Hours saved", "Remaining hours"], title="Time Saved", labels={"value": "Total Hours"})
         fig1.update_layout(**custom_layout)
-        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", title="Quality Scores")
+        # Code for un-centering the title
+        #   fig1.update_layout(
+        #                     legend_title_text="",
+        #                     yaxis_title="Total Hours",
+        #                     title={
+        #                         'text': 'Your Graph Title',
+        #                         'x':0.45,  # Adjust this value to shift the title left (<0.5) or right (>0.5)
+        #                         'xanchor': 'center',  # Ensures the title will still center at the new x position
+        #                         'yanchor': 'top'
+        #                     }
+        #                 )
+        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", title="Quality Scores", labels={"Service": "Recommended Service"})
         fig2.update_layout(**custom_layout)
         return fig1, fig2, no_update, error_message
 
 # Run the app
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000, debug=True)
+    app.run(debug=True)
