@@ -23,7 +23,7 @@ app.layout = dbc.Container([
             html.Div([
                 dcc.Markdown("""
                 # Gen-AI Tool Recommender
-                """, className="mb-3")
+                """, className="tab-content-top-padding text-light")
             ]),
             dcc.Tabs(id="tabs", value='tab-1', children=[
                 dcc.Tab(label="About", value='tab-1', children=[
@@ -43,20 +43,20 @@ app.layout = dbc.Container([
 
                         5. **Results Analysis**: On the right side of the interface, you will see an analysis of the potential hours you can save by utilizing the recommended services. Below this, the quality scores for each recommended service are displayed, providing a qualitative measure of how much the product will improve the quality of your work.
                         """,
-                        className="mb-3")
+                        className="tab-content-top-padding text-light")
                     ])
                 ]),
                 dcc.Tab(label="Budget", value='tab-2', children=[
                     html.Div([
                         dcc.Markdown("""
                             ### Budget
-                            """, className="mb-3"
+                            """, className="tab-content-top-padding text-light"
                         ),
-                        dbc.Label("What is your budget each month?"),
+                        dbc.Label("What is your budget each month?", className="text-light"),
                         dbc.Input(id="budget", type="number", min=0, placeholder="Dollars per month", className="mb-2"),
 
-                        dbc.Label("Copilot Pro (20$) contains several tools, would you like to consider this integration in the analysis?"),
-                        dbc.Checkbox(id='checkbox', className='mb-2', label="Enable Copilot tools"),
+                        dbc.Label("Copilot Pro (20$) contains several tools, would you like to consider this integration in the analysis?", className="text-warning"),
+                        dbc.Checkbox(id='checkbox', className='text-light', label="Enable Copilot tools"),
                         html.Div(id='error-message', className='bg-danger'),
                         dbc.Button("Submit", id="submit-button-3", color="primary", n_clicks=0, className="mb-2"),
                         dbc.Button("Generate Report", id="generate-report-1", color="success", n_clicks=0, className="mb-2"),
@@ -68,25 +68,28 @@ app.layout = dbc.Container([
                     html.Div([
                         dcc.Markdown("""
                             ### How much time do you spend...
-                            """, className="mb-3"
+                            """, className="tab-content-top-padding text-light"
                         ),
-                        dbc.Label("Reading or reviewing long documents"),
+                        dbc.Label("Reading or reviewing long documents", className="text-light"),
                         dbc.Input(id="input-1", type="number", min=0, placeholder="Hours per week", className="mb-2"),
                         
-                        dbc.Label("Writing or reading through PowerPoints"),
+                        dbc.Label("Writing or reading through PowerPoints", className="text-light"),
                         dbc.Input(id="input-2", type="number", min=0, placeholder="Hours per week", className="mb-2"),
 
-                        dbc.Label("Writing long texts (blog posts, emails, documents)"),
+                        dbc.Label("Writing long texts (blog posts, emails, documents)", className="text-light"),
                         dbc.Input(id="input-3", type="number", min=0, placeholder="Hours per week", className="mb-2"),
 
-                        dbc.Label("Scheduling and re-scheduling tasks or events"),
+                        dbc.Label("Scheduling and re-scheduling tasks or events", className="text-light"),
                         dbc.Input(id="input-4", type="number", min=0, placeholder="Hours per week", className="mb-2"),
 
-                        dbc.Label("Recording, summarizing, or reviewing meeting notes"),
+                        dbc.Label("Recording, summarizing, or reviewing meeting notes", className="text-light"),
                         dbc.Input(id="input-5", type="number", min=0, placeholder="Hours per week", className="mb-2"),
                         
-                        dbc.Label("Doing repetitive tasks that involve multiple web apps"),
+                        dbc.Label("Doing repetitive tasks that involve 2 web apps", className="text-light"),
                         dbc.Input(id="input-6", type="number", min=0, placeholder="Hours per week", className="mb-2"),
+
+                        dbc.Label("Doing repetitive tasks that involve more than two web apps", className="text-light"),
+                        dbc.Input(id="input-13", type="number", min=0, placeholder="Hours per week", className="mb-2"),
 
                         dbc.Button("Submit", id="submit-button", color="primary", n_clicks=0, className="mb-2"),
                     ])
@@ -95,25 +98,28 @@ app.layout = dbc.Container([
                     html.Div([
                         dcc.Markdown("""
                             ### How much do you...
-                            """, className="mb-3"
+                            """, className="tab-content-top-padding text-light"
                         ),
-                        dbc.Label("Want to improve the quality of your understanding of long texts"),
+                        dbc.Label("Want to improve the quality of your understanding of long texts", className="text-light"),
                         dbc.Input(id="input-7", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
                         
-                        dbc.Label("Want to improve the quality of created PowerPoints"),
+                        dbc.Label("Want to improve the quality of created PowerPoints", className="text-light"),
                         dbc.Input(id="input-8", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
 
-                        dbc.Label("Want to improve the quality of writing long texts (blog posts, emails, documents)"),
+                        dbc.Label("Want to improve the quality of writing long texts (blog posts, emails, documents)", className="text-light"),
                         dbc.Input(id="input-9", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
 
-                        dbc.Label("Want to improve the quality of scheduling for tasks or events"),
+                        dbc.Label("Want to improve the quality of scheduling for tasks or events", className="text-light"),
                         dbc.Input(id="input-10", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
 
-                        dbc.Label("Want to improve the quality of recordings or summaries of meeting notes"),
+                        dbc.Label("Want to improve the quality of recordings or summaries of meeting notes", className="text-light"),
                         dbc.Input(id="input-11", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
                         
-                        dbc.Label("Want to improve the quality of repetetive tasks that involve multiple web apps"),
+                        dbc.Label("Want to improve the quality of repetetive tasks that involve two web apps", className="text-light"),
                         dbc.Input(id="input-12", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
+
+                        dbc.Label("Want to improve the quality of repetetive tasks that involve multiple web apps", className="text-light"),
+                        dbc.Input(id="input-14", type="number", min=1, max=10, placeholder="Scale of 1-10", className="mb-2"),
 
                         dbc.Button("Submit", id="submit-button-2", color="primary", n_clicks=0, className="mb-2"),
                     ])
@@ -123,7 +129,7 @@ app.layout = dbc.Container([
         
         dbc.Col([
             dcc.Graph(id="bar-graph-1"),
-            dcc.Graph(id="bar-graph-2")
+            dcc.Graph(id="bar-graph-2", className="tab-content-top-padding")
         ], width=7)
     ])
 ], fluid=True)
@@ -141,6 +147,7 @@ app.layout = dbc.Container([
      dash.dependencies.State("input-7", "value"), dash.dependencies.State("input-8", "value"),
      dash.dependencies.State("input-9", "value"), dash.dependencies.State("input-10", "value"),
      dash.dependencies.State("input-11", "value"), dash.dependencies.State("input-12", "value"),
+     dash.dependencies.State("input-13", "value"), dash.dependencies.State("input-14", "value"),
      dash.dependencies.State("budget", "value"), dash.dependencies.State("budget", "value"),
      dash.dependencies.State('checkbox', 'value')]
 )
@@ -160,17 +167,26 @@ def update_output(*args):
     }
 
     # Initialize default data for graphs
-    default_data_auto = pd.DataFrame({"Task": ["A"], "Hours saved": [0], "Remaining hours": [0]})
+    default_data_auto = pd.DataFrame({"Task": ["Reading texts", "PowerPoint", "Writing", "Scheduling", "Meetings", "Web apps (2-step)", "Web apps (multi-step)", "Total"], "Hours saved": [0]*8, "Remaining hours": [0]*8})
     default_data_qual = pd.DataFrame({"Service": ["A"], "Quality": [0]})
 
     # Initialize graphs with default data
     fig1 = px.bar(default_data_auto, x="Task", y=["Hours saved", "Remaining hours"], title="Time Saved", labels={"value": "Total Hours"})
     fig1.update_layout(**custom_layout)
     fig1.update_traces(marker=dict(line=dict(width=0)), texttemplate='%{y}', textposition='inside')
-    fig1.update_layout(legend_title_text='')
+    fig1.update_layout(legend_title_text='', transition={'duration': 500}, title={'text': "Time Saved (Hours)", 'y':0.95, 'font': dict(
+            family="Helvetica",  # Specify the font family if needed
+            size=24,  # Adjust the size as needed
+            color="white"  # Adjust the color if needed
+        )}, xaxis_title_standoff=1)
 
-    fig2 = px.bar(default_data_qual, x="Service", y="Quality", title="Quality Scores", labels={"Service": "Recommended Service"})
+    fig2 = px.bar(default_data_qual, x="Service", y="Quality", labels={"Service": "Recommended Service"})
     fig2.update_layout(**custom_layout)
+    fig2.update_layout(title={'text': "Quality Scores (1-10)", 'y':1.0, 'font': dict(
+            family="Helvetica",  # Specify the font family if needed
+            size=24,  # Adjust the size as needed
+            color="white"  # Adjust the color if needed
+        )})
 
     default_report = 'Nothing to show'
 
@@ -182,13 +198,15 @@ def update_output(*args):
     keys = ["input-" + str(num) + ".value" for num in range(1,13)]
     input_n = [ctx.states[key] for key in keys]
     automation_vals, quality_vals = input_n[:len(input_n)//2], input_n[len(input_n)//2:]
+    automation_vals.append(ctx.states["input-13.value"])
+    quality_vals.append(ctx.states["input-14.value"])
 
     # Validation logic
     budget = ctx.states['budget.value']
     checkbox_checked = ctx.states['checkbox.value']
     error_message = " "
     if checkbox_checked and (budget is None or budget < 20):
-        error_message = "If budget tracking is enabled, the budget must be at least $20."
+        error_message = "If Copilot is enabled, the budget must be at least $20."
         return fig1, fig2, "No data to display.", error_message
 
     elif checkbox_checked:
@@ -197,16 +215,23 @@ def update_output(*args):
     # Process data and update graphs as necessary
     ranker = Ranker(budget, automation_vals, quality_vals, checkbox_checked)
     ranked_df = ranker.rank()
+
+    # if button_id in ["submit-button"]:
+    #     # Using `reset_index(drop=True)` to ignore the original index
+    #     assert 1==0, f"Ranker df: {ranked_df}"
+
     ranked_df['Remaining hours'] = ranked_df['Hours spent'] - ranked_df['Hours saved']
     ranked_df.loc[ranked_df['selected'] == 0, 'Remaining hours'] = 0
 
     ranked_df['Hours saved'] = ranked_df['Hours saved'].apply(partial(round, ndigits=2))
     ranked_df['Remaining hours'] = ranked_df['Remaining hours'].apply(partial(round, ndigits=2))
+    
 
     auto_bar = ranked_df[['Task', 'Hours saved', 'Remaining hours', 'selected']]
-    qual_bar = ranked_df[['Service', 'Quality Score', 'selected']]
+    qual_bar = ranked_df[['Service', 'Quality Score', 'selected', 'Task']]
 
     def refine_auto_bar(df):
+        df = df[df['selected']]
         # Initialize an empty list to store the indices of the rows to keep
         keep_indices = []
         
@@ -238,20 +263,35 @@ def update_output(*args):
             'Remaining hours': df['Remaining hours'].sum()},
             ignore_index=True)
         
-        return refined_df
         
-    def refine_quality_bar(df):
-        df = df[df['selected']]
-        return df[['Quality Score', 'Service']]
-
+        
+        return refined_df
+    
     auto_ready = refine_auto_bar(auto_bar)
+
+        
+    def refine_quality_bar(df, task_order=auto_ready['Task'].values):
+        df = df[df['selected']]
+        df['Task'] = pd.Categorical(df['Task'], categories=task_order, ordered=True)
+        df.sort_values('Task', inplace=True)  # Ensure the DataFrame is sorted after categorization
+        return df[['Quality Score', 'Service', 'Task']]
+
+
     qual_ready = refine_quality_bar(qual_bar)
 
     default_report = "No data to show"
 
     if button_id in ["submit-button"]:
+        # Update the data in the figure
+        # Using `reset_index(drop=True)` to ignore the original index
         fig1 = px.bar(auto_ready, x="Task", y=["Hours saved", "Remaining hours"], title="Time Saved", labels={"value": "Total Hours"})
-        fig1.update_layout(**custom_layout)
+        fig1.update_traces(marker=dict(line=dict(width=0)), texttemplate='%{y}', textposition='inside')
+        fig1.update_layout(**custom_layout, legend_title_text='')
+        fig1.update_layout(legend_title_text='', transition={'duration': 500}, title={'text': "Time Saved (Hours)", 'y':0.95, 'font': dict(
+                family="Helvetica",  # Specify the font family if needed
+                size=24,  # Adjust the size as needed
+                color="white"  # Adjust the color if needed
+            )})
         # Code for un-centering the title
         #   fig1.update_layout(
         #                     legend_title_text="",
@@ -263,11 +303,22 @@ def update_output(*args):
         #                         'yanchor': 'top'
         #                     }
         #                 )
-
-        return fig1, no_update, no_update, error_message
-    elif button_id in ["submit-button-2"]:
-        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", title="Quality Scores", labels={"Service": "Recommended Service"})
+        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", labels={"Service": "Recommended Service"})
         fig2.update_layout(**custom_layout)
+        fig2.update_layout(title={'text': "Quality Scores  (1-10)", 'y':1.0, 'font': dict(
+                family="Helvetica",  # Specify the font family if needed
+                size=24,  # Adjust the size as needed
+                color="white"  # Adjust the color if needed
+            )})
+        return fig1, fig2, no_update, error_message
+    elif button_id in ["submit-button-2"]:
+        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", labels={"Service": "Recommended Service"})
+        fig2.update_layout(**custom_layout)
+        fig2.update_layout(title={'text': "Quality Scores  (1-10)", 'y':1.0, 'font': dict(
+                family="Helvetica",  # Specify the font family if needed
+                size=24,  # Adjust the size as needed
+                color="white"  # Adjust the color if needed
+            )})
         return no_update, fig2, no_update, error_message
     elif button_id in ['generate-report-1']:
         df = ranked_df[['Service', 'Hours saved', 'Remaining hours', 'Quality Score', 'selected']]
@@ -310,7 +361,13 @@ def update_output(*args):
     
     else:
         fig1 = px.bar(auto_ready, x="Task", y=["Hours saved", "Remaining hours"], title="Time Saved", labels={"value": "Total Hours"})
-        fig1.update_layout(**custom_layout)
+        fig1.update_traces(marker=dict(line=dict(width=0)), texttemplate='%{y}', textposition='inside')
+        fig1.update_layout(**custom_layout, legend_title_text='')
+        fig1.update_layout(legend_title_text='', transition={'duration': 500}, title={'text': "Time Saved (Hours)", 'y':0.95, 'font': dict(
+                family="Helvetica",  # Specify the font family if needed
+                size=24,  # Adjust the size as needed
+                color="white"  # Adjust the color if needed
+            )})
         # Code for un-centering the title
         #   fig1.update_layout(
         #                     legend_title_text="",
@@ -322,10 +379,15 @@ def update_output(*args):
         #                         'yanchor': 'top'
         #                     }
         #                 )
-        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", title="Quality Scores", labels={"Service": "Recommended Service"})
+        fig2 = px.bar(qual_ready, x="Service", y="Quality Score", title="Quality Scores (1-10)", labels={"Service": "Recommended Service"})
         fig2.update_layout(**custom_layout)
+        fig2.update_layout(title={'text': "Quality Scores (1-10)", 'y':1.0, 'font': dict(
+                family="Helvetica",  # Specify the font family if needed
+                size=24,  # Adjust the size as needed
+                color="white"  # Adjust the color if needed
+            )})
         return fig1, fig2, no_update, error_message
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000, debug=True)
